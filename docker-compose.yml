@@ -12,6 +12,19 @@ services:
       JAVA_OPTS: '-Dlogging.config=/logback.xml'
     volumes:
       - './logback.xml:/logback.xml'
+  referencedata:
+    image: openlmis/referencedata
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PORT=8082
+      - VIRTUAL_LOCATION=referencedata
+    links:
+      - db
+      - log
+      - auth
+      - nginx-proxy
+      - registrator
   db:
     image: openlmis/postgres
     ports:

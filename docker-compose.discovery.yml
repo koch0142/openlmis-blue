@@ -4,7 +4,10 @@ services:
     command: -server -bootstrap
     image: gliderlabs/consul-server
     ports:
+      - "8300"
+      - "8400"
       - "8500:8500"
+      - "53"
   registrator:
     image: gliderlabs/registrator
     command: -internal consul://consul:8500
@@ -23,16 +26,16 @@ services:
       - db
       - log
       - auth
-      - example
+      - referencedata
       - nginx-proxy
       - registrator
-  example:
-    image: openlmis/example
+  referencedata:
+    image: openlmis/referencedata
     env_file: .env
     environment:
       - VIRTUAL_HOST=localhost
       - VIRTUAL_PORT=8082
-      - VIRTUAL_LOCATION=example
+      - VIRTUAL_LOCATION=referencedata
     links:
       - db
       - log
